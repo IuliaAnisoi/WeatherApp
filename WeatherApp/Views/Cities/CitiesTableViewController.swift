@@ -23,6 +23,8 @@ class WeatherTableViewController: UITableViewController {
    
         self.navigationItem.leftBarButtonItem = self.editButtonItem
         tableView.reloadData()
+        viewModel.getCities()
+    //    viewModel.cities.asObserver().subscribe(<#T##on: (Event<[CurrentWeather]>) -> Void##(Event<[CurrentWeather]>) -> Void#>)
         
     }
 

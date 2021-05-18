@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -28,6 +28,7 @@
 		A2617551264AA6B0009FE0D6 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2617550264AA6B0009FE0D6 /* APIRequest.swift */; };
 		A2617554264BB6A3009FE0D6 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2617553264BB6A3009FE0D6 /* LocationService.swift */; };
 		A2617556264C0901009FE0D6 /* CitiesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2617555264C0901009FE0D6 /* CitiesViewModel.swift */; };
+		A2617558264EC79E009FE0D6 /* CitiesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2617557264EC79E009FE0D6 /* CitiesRepository.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +56,7 @@
 		A2617550264AA6B0009FE0D6 /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		A2617553264BB6A3009FE0D6 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		A2617555264C0901009FE0D6 /* CitiesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitiesViewModel.swift; sourceTree = "<group>"; };
+		A2617557264EC79E009FE0D6 /* CitiesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitiesRepository.swift; sourceTree = "<group>"; };
 		A3272E09742821383717F0C9 /* Pods-WeatherApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherApp.release.xcconfig"; path = "Target Support Files/Pods-WeatherApp/Pods-WeatherApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -76,7 +78,6 @@
 				8BB4F9F6DC012706B86F1689 /* Pods-WeatherApp.debug.xcconfig */,
 				A3272E09742821383717F0C9 /* Pods-WeatherApp.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -129,6 +130,7 @@
 				A2319AC826453E8700EED457 /* CitiesTableViewController.swift */,
 				A2240C7226454A5300A2729C /* CityTableViewCell.swift */,
 				A2617555264C0901009FE0D6 /* CitiesViewModel.swift */,
+				A2617557264EC79E009FE0D6 /* CitiesRepository.swift */,
 			);
 			path = Cities;
 			sourceTree = "<group>";
@@ -308,6 +310,7 @@
 			files = (
 				A2617554264BB6A3009FE0D6 /* LocationService.swift in Sources */,
 				A26175422649200C009FE0D6 /* NowTableViewCell.swift in Sources */,
+				A2617558264EC79E009FE0D6 /* CitiesRepository.swift in Sources */,
 				A261754826492EF2009FE0D6 /* DailyTableViewCell.swift in Sources */,
 				A2617551264AA6B0009FE0D6 /* APIRequest.swift in Sources */,
 				A2617556264C0901009FE0D6 /* CitiesViewModel.swift in Sources */,

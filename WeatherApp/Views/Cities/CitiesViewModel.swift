@@ -11,6 +11,14 @@ import RxCocoa
 
 public class CitiesViewModel {
     let cities = PublishSubject<[CurrentWeather]>()
+    let citiesRepository = CitiesRepository()
     
+    
+    func getCities() {
+        //se apeleaza metoda din repository si se asteapta datele de la server
+        citiesRepository.getCities { result in
+            print(result)
+        }
+    }
     
 }

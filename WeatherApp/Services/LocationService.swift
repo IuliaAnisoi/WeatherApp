@@ -19,7 +19,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     
     public func getUserLocation(completion: @escaping ((CLLocation) -> Void)) {
         self.completion = completion
-       // manager.requestWhenInUseAuthorization()
+        manager.requestWhenInUseAuthorization()
         manager.delegate = self
         manager.startUpdatingLocation()
     }

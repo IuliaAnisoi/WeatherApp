@@ -11,10 +11,11 @@ struct CurrentWeather: Codable {
     let main: Main
     let name: String
     let weather: [Weather]
+    let dt: Double
     
     struct Weather: Codable {
         let id: Int
-            let main, weatherDescription, icon: String
+        let main, weatherDescription, icon: String
 
             enum CodingKeys: String, CodingKey {
                 case id, main
