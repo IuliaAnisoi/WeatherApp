@@ -11,13 +11,17 @@ import CoreLocation
 class CitiesRepository {
     let apiRequest = APIRequest()
     
-    func getCities(completion: @escaping (Result<CurrentWeather, Error>) -> Void) {
+    func getWeatherForCurrentLocation(completion: @escaping (Result<CurrentWeather, Error>, CLLocationCoordinate2D) -> Void) {
         LocationManager.shared.getUserLocation { location in
-            self.apiRequest.fetchWeatherData(for: location.coordinate) { result in
-                // ce primim de pe server ca si result il transmitem inapoi folosind completion
-                // completion ca si parametru este de tipul closer, la fel ca si cel de pe API
-                completion(result)
+            self.apiRequest.fetchWeatherDataByCoordinates(for: location.coordinate) { result in
+                completion(result, location.coordinate)
             }
+        }
+    }
+    
+    func getWeatherForCities(coordinates: CLLocationCoordinate2D, completion:  @escaping (Result<CurrentWeather, Error>) -> Void) {
+        self.apiRequest.fetchWeatherDataByCoordinates(for: coordinates) { result in
+            completion(result)
         }
     }
     

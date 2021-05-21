@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class CityTableViewCell: UITableViewCell {
 
@@ -26,8 +27,11 @@ class CityTableViewCell: UITableViewCell {
     
     func update(with city: City) {
         cityNameLabel.text = city.name
-     //   currentWeatherIcon.image = city.icon.image
-        degreesLabel.text = city.temperature
+        currentWeatherIcon.backgroundColor = UIColor(red: 0.31, green: 0.76, blue: 0.97, alpha: 1.00)
+        let url = URL(string: "https://openweathermap.org/img/wn/\(city.icon)@2x.png")
+        currentWeatherIcon.kf.setImage(with: url)
+        
+        degreesLabel.text = String(city.temperature)
     }
 
 }

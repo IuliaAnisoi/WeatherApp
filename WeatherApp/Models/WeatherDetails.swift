@@ -22,18 +22,26 @@ struct Weather: Codable {
 
 //MARK: Current
 struct Current: Codable {
-    let dt: Int
+    let dt: Double
     let sunrise, sunset: Int?
     let temp, feelsLike: Double
     let weather: [Weather]
+    
+    func getDate() -> Date{
+        return NSDate(timeIntervalSince1970: dt) as Date
+    }  
 }
 
 //MARK: Daily
 struct Daily: Codable {
-    let dt: Int
+    let dt: Double
     let temp: Temp
     let windDeg: Int
     let weather: [Weather]
+    
+    func getDate() -> Date{
+        return NSDate(timeIntervalSince1970: dt) as Date
+    }
 }
 
 // MARK: Temp

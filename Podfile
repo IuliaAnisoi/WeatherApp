@@ -6,4 +6,5 @@ target 'WeatherApp' do
   use_frameworks!
   pod 'RxSwift'
   pod 'RxCocoa'
+  pod 'Kingfisher', '~> 6.0'
 end

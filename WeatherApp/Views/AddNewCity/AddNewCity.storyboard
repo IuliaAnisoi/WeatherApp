@@ -16,18 +16,32 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter city name..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1pI-BW-VyX">
-                                <rect key="frame" x="20" y="180" width="374" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <searchBar contentMode="redraw" placeholder="Seach for a city" translatesAutoresizingMaskIntoConstraints="NO" id="0KM-1E-lSs">
+                                <rect key="frame" x="10" y="156" width="394" height="51"/>
                                 <textInputTraits key="textInputTraits"/>
-                            </textField>
+                                <connections>
+                                    <outlet property="delegate" destination="AvE-R5-0KD" id="Gbr-QP-3j2"/>
+                                </connections>
+                            </searchBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="XIi-Wm-2TD">
+                                <rect key="frame" x="10" y="215" width="394" height="639"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="AvE-R5-0KD" id="aDp-Gx-e7g"/>
+                                    <outlet property="delegate" destination="AvE-R5-0KD" id="OVU-lf-QMN"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="JwA-yA-UD2"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="1pI-BW-VyX" firstAttribute="top" secondItem="JwA-yA-UD2" secondAttribute="top" constant="40" id="Bt1-5o-lbY"/>
-                            <constraint firstItem="1pI-BW-VyX" firstAttribute="leading" secondItem="JwA-yA-UD2" secondAttribute="leading" constant="20" id="K13-Ce-bRo"/>
-                            <constraint firstItem="JwA-yA-UD2" firstAttribute="trailing" secondItem="1pI-BW-VyX" secondAttribute="trailing" constant="20" id="qBk-3E-jT8"/>
+                            <constraint firstItem="XIi-Wm-2TD" firstAttribute="leading" secondItem="JwA-yA-UD2" secondAttribute="leading" constant="10" id="0yV-m9-W9v"/>
+                            <constraint firstItem="XIi-Wm-2TD" firstAttribute="top" secondItem="0KM-1E-lSs" secondAttribute="bottom" constant="8" id="SiB-ss-Ns9"/>
+                            <constraint firstItem="JwA-yA-UD2" firstAttribute="trailing" secondItem="XIi-Wm-2TD" secondAttribute="trailing" constant="10" id="TEB-rt-oOM"/>
+                            <constraint firstAttribute="trailing" secondItem="0KM-1E-lSs" secondAttribute="trailing" constant="10" id="dWG-rc-hMu"/>
+                            <constraint firstItem="JwA-yA-UD2" firstAttribute="bottom" secondItem="XIi-Wm-2TD" secondAttribute="bottom" constant="8" id="hgA-Oy-IGw"/>
+                            <constraint firstItem="0KM-1E-lSs" firstAttribute="top" secondItem="JwA-yA-UD2" secondAttribute="top" constant="16" id="rtP-5n-thr"/>
+                            <constraint firstItem="0KM-1E-lSs" firstAttribute="leading" secondItem="JwA-yA-UD2" secondAttribute="leading" constant="10" id="t3W-ey-ZNZ"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Add City" id="2N9-pF-bKQ">
@@ -37,6 +51,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="searchResultsTableView" destination="XIi-Wm-2TD" id="dWb-Cs-zZa"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5T3-vz-zCv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
