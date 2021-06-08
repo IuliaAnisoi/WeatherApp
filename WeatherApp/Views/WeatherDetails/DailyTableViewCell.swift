@@ -6,18 +6,31 @@
 //
 
 import UIKit
+import Kingfisher
 
 class DailyTableViewCell: UITableViewCell {
-
+    @IBOutlet weak var dayLabel: UILabel!
+    @IBOutlet weak var iconImage: UIImageView!
+    @IBOutlet weak var minLabel: UILabel!
+    @IBOutlet weak var maxLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
+    
+    func update(with day: Daily) {
+        dayLabel.text = day.getDate()
+    
+        let url = URL(string: "https://openweathermap.org/img/wn/\(day.weather.first?.icon ?? "")@2x.png")
+        iconImage.kf.setImage(with: url)
+        
+        minLabel.text = day.temp.min.convertDoubleToTemperature()
+        maxLabel.text = day.temp.max.convertDoubleToTemperature()
+    }
+
 
 }

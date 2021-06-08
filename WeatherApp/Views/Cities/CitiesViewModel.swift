@@ -11,17 +11,17 @@ import RxCocoa
 import CoreLocation
 
 public class CitiesViewModel {
-    let cities = PublishSubject<[City]>()
+    let cities = PublishSubject<[HomeElement]>()
     let citiesRepository = CitiesRepository()
-    private var listOfCities: [City] = []
+    private var listOfCities: [HomeElement] = []
     
     func getWeatherForCurrentLocation() {
-        citiesRepository.getWeatherForCurrentLocation { result, location in
+        citiesRepository.getWeatherForCurrentLocation { [weak self] result, location in
             switch result {
             case .success(let weather):
-                let weatherResponse = City(coordinates: location, name: weather.name, icon: weather.weather.first?.icon ?? "", rawTemperature: weather.main.temp)
-                self.listOfCities.append(weatherResponse)
-                self.cities.onNext(self.listOfCities)
+                
+                let weatherResponse = HomeElement(latitude: location.latitude, longitude: location.longitude, name: weather.name, icon: weather.weather.first?.icon ?? "", rawTemperature: weather.main.temp)
+                self?.cities.onNext([weatherResponse] + (self?.listOfCities ?? []))
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -29,12 +29,17 @@ public class CitiesViewModel {
     }
     
     func getWeatherForCities(for coordinates: CLLocationCoordinate2D, cityName: String) {
-        citiesRepository.getWeatherForCities(coordinates: coordinates) { result in
+        citiesRepository.getWeatherForCities(coordinates: coordinates) { [weak self] result in
+            guard let self = self else { return }
+            
             switch result {
             case .success(let weatherForLocation):
-                let weatherResponse = City(coordinates: coordinates, name: cityName, icon: weatherForLocation.weather.first?.icon ?? "", rawTemperature: weatherForLocation.main.temp)
+                
+                let weatherResponse = HomeElement(latitude: coordinates.latitude, longitude: coordinates.longitude, name: cityName, icon: weatherForLocation.weather.first?.icon ?? "", rawTemperature: weatherForLocation.main.temp)
+                
                 self.listOfCities.append(weatherResponse)
                 self.cities.onNext(self.listOfCities)
+                self.citiesRepository.setFavouriteCities(elements: self.listOfCities)
             case .failure(let error):
                 print(error)
             }
@@ -46,5 +51,12 @@ public class CitiesViewModel {
         listOfCities.remove(at: indexPath)
         self.cities.onNext(self.listOfCities)
 
+    }
+    
+    func getFavouriteCities() {
+        citiesRepository.getFavouriteCities { elements in
+            self.listOfCities = elements
+            self.cities.onNext(self.listOfCities)
+        }
     }
 }

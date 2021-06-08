@@ -6,41 +6,47 @@
 //
 
 import Foundation
+import UIKit
 
-
-//MARK: Weather
-struct Weather: Codable {
-    let id: Int
-    let main, weatherDescription, icon: String
-
-    enum CodingKeys: String, CodingKey {
-        case id, main
-        case weatherDescription = "description"
-        case icon
-    }
+struct WeatherDetails: Codable {
+    let current: Current
+    let hourly: [Hourly]
+    let daily: [Daily]
 }
 
 //MARK: Current
 struct Current: Codable {
     let dt: Double
-    let sunrise, sunset: Int?
-    let temp, feelsLike: Double
+    let temp: Double
     let weather: [Weather]
     
-    func getDate() -> Date{
-        return NSDate(timeIntervalSince1970: dt) as Date
-    }  
 }
 
 //MARK: Daily
 struct Daily: Codable {
     let dt: Double
     let temp: Temp
-    let windDeg: Int
     let weather: [Weather]
     
-    func getDate() -> Date{
-        return NSDate(timeIntervalSince1970: dt) as Date
+    func getDate() -> String {
+        let formatter = DateFormatter()
+            formatter.dateFormat = "EEEE"
+        let formattedDate = formatter.string(from: NSDate(timeIntervalSince1970: dt) as Date)
+        return formattedDate
+    }
+}
+
+//MARK: Hourly
+struct Hourly: Codable {
+    let dt: Double
+    let temp: Double
+    let weather: [Weather]
+    
+    func getDate() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        let formattedDate = formatter.string(from: NSDate(timeIntervalSince1970: dt) as Date)
+        return formattedDate
     }
 }
 
@@ -50,3 +56,13 @@ struct Temp: Codable {
     let eve, morn: Double
 }
 
+
+extension Double {
+    func convertDoubleToTemperature() -> String {
+        let roundedValue = Darwin.round(self * 10) / 10
+        let mf = MeasurementFormatter()
+        let temp = Measurement(value: roundedValue, unit: UnitTemperature.celsius)
+        mf.locale = Locale(identifier: "en_GB")
+        return mf.string(from: temp)
+    }
+}

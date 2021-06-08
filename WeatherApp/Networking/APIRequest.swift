@@ -10,48 +10,40 @@ import CoreLocation
 
 
 class APIRequest {
-    private let API_KEY = "117fa230c68fd284046584083636039d"
+    static let API_KEY = "117fa230c68fd284046584083636039d"
+    static let baseUrl = "https://api.openweathermap.org/data/2.5/"
     
-    func fetchWeatherDataByCoordinates(for coordinates: CLLocationCoordinate2D, completion: @escaping (Result<CurrentWeather, Error>) -> Void) {
+    func fetchGenericData<T: Decodable>(apiType: APIType, completion: @escaping (T)  -> (), completionError: @escaping (Error)  -> ()) {
         
-        guard let urlComponents = URLComponents(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(coordinates.latitude)&lon=\(coordinates.longitude)&appid=\(API_KEY)&units=metric") else { return }
+        guard let urlComponents = URLComponents(string: apiType.url) else { return }
         
-        let task = URLSession.shared.dataTask(with: urlComponents.url!) { (data: Data?, response: URLResponse?, error: Error?) -> Void in
+        let task = URLSession.shared.dataTask(with: urlComponents.url!){ (data: Data?, response: URLResponse?, error: Error?) -> Void in
             
-            if let data = data {
+            guard let data = data else { return }
                 do {
-                    let result = try JSONDecoder().decode(CurrentWeather.self, from: data)
-                    completion(.success(result))
+                    let object = try JSONDecoder().decode(T.self, from: data)
+                    completion(object)
                 }
-                catch {
-                    completion(.failure(error))
-                }
-            } else if let error = error {
-                completion(.failure(error))
+                catch let error {
+                    print(error.localizedDescription)
+                    completionError(error)
             }
         }
         task.resume()
     }
-    
-    func fetchWeatherDataByCityName(for cityName: String, completion: @escaping (Result<CurrentWeather, Error>) -> Void) {
-    
-        guard let urlComponents = URLComponents(string: "https://api.openweathermap.org/data/2.5/weather?q=Suceava&appid=\(API_KEY)&units=metric") else { return }
-        
-        let task = URLSession.shared.dataTask(with: urlComponents.url!) { (data: Data?, response: URLResponse?, error: Error?) -> Void in
-            
-            if let data = data {
-                do {
-                    let result = try JSONDecoder().decode(CurrentWeather.self, from: data)
-                    completion(.success(result))
-                }
-                catch {
-                    completion(.failure(error))
-                }
-            } else if let error = error {
-                completion(.failure(error))
-            }
-        }
-        task.resume()
-    }
+}
 
+enum APIType {
+    
+    case current(coordinate: CLLocationCoordinate2D)
+    case details(coordinate: CLLocationCoordinate2D)
+
+    var url: String {
+        switch self {
+        case .current(let coordinates):
+            return "\(APIRequest.baseUrl)weather?lat=\(coordinates.latitude)&lon=\(coordinates.longitude)&appid=\(APIRequest.API_KEY)&units=metric"
+        case .details(let coordinates):
+        return "\(APIRequest.baseUrl)onecall?lat=\(coordinates.latitude)&lon=\(coordinates.longitude)&appid=\(APIRequest.API_KEY)&units=metric"
+        }
+    }
 }

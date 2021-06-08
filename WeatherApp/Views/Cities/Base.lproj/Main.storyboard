@@ -10,7 +10,7 @@
         <scene sceneID="3EZ-12-MxM">
             <objects>
                 <tableViewController id="3WA-Dt-2zd" customClass="CitiesTableViewController" customModule="WeatherApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="f58-Cg-zC3">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="f58-Cg-zC3">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <prototypes>
@@ -52,6 +52,7 @@
                                         <constraint firstItem="e2j-rt-C9M" firstAttribute="top" secondItem="QgD-h7-0Ln" secondAttribute="topMargin" constant="10" id="ymO-zM-hAm"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <outlet property="cityNameLabel" destination="cYk-b0-f2y" id="8Hx-Qt-enZ"/>
                                     <outlet property="currentWeatherIcon" destination="a5z-JM-xTT" id="eMK-UC-2qd"/>

@@ -11,23 +11,26 @@ import RxSwift
 
 class CitiesTableViewController: UITableViewController {
  
-    private var citiesViewModel = CitiesViewModel()
-    let disposeBag = DisposeBag()
+    private var viewModel = CitiesViewModel()
+    private let disposeBag = DisposeBag()
 
-    var cities: [City] = []
+    var cities: [HomeElement] = []
       
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.backgroundView = UIImageView(image: UIImage(named: "homeSky"))
    
         self.navigationItem.leftBarButtonItem = self.editButtonItem
-        tableView.reloadData()
-        citiesViewModel.cities.observe(on: MainScheduler.instance).subscribe { response in
-            print(response.element)
+        
+        viewModel.cities.observe(on: MainScheduler.instance).subscribe { response in
             self.cities = response.element ?? []
             self.tableView.reloadData()
         }.disposed(by: disposeBag)
         
-        citiesViewModel.getWeatherForCurrentLocation()
+        viewModel.getWeatherForCurrentLocation()
+        
+        viewModel.getFavouriteCities()
         
     }
 
@@ -47,7 +50,7 @@ extension CitiesTableViewController: AddNewCityViewControllerDelegate {
     func onCellTap(cityName: String, coordinates: CLLocationCoordinate2D?) {
         
         if let newLocation = coordinates {
-            citiesViewModel.getWeatherForCities(for: newLocation, cityName: cityName)
+            viewModel.getWeatherForCities(for: newLocation, cityName: cityName)
         }
     }
 }
@@ -69,15 +72,15 @@ extension CitiesTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int){
-        view.tintColor = UIColor(red: 0.00, green: 0.58, blue: 0.77, alpha: 1.00)
+        view.tintColor = UIColor(red: 0.00, green: 0.00, blue: 0.00, alpha: 0.00)
         let header = view as! UITableViewHeaderFooterView
-        header.textLabel?.textColor = UIColor.white
+        header.textLabel?.textColor = UIColor.black
     }
   
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CityCell", for: indexPath) as! CityTableViewCell
+
         let city = cities[indexPath.row]
-        cell.backgroundColor = UIColor(red: 0.31, green: 0.76, blue: 0.97, alpha: 1.00)
         cell.update(with: city)
         
         return cell
@@ -90,7 +93,7 @@ extension CitiesTableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             cities.remove(at: indexPath.row)
-            citiesViewModel.deleteRows(at: indexPath.row)
+            viewModel.deleteRows(at: indexPath.row)
         }
     }
     
@@ -100,6 +103,8 @@ extension CitiesTableViewController {
         let city = cities[indexPath.row]
         let weatherDetailsController = UIStoryboard(name: "WeatherDetails", bundle: nil).instantiateViewController(identifier: "WeatherDetails") as! WeatherDetailsTableViewController
         weatherDetailsController.title = city.name
+        
+        weatherDetailsController.viewModel = WeatherDetailsViewModel(element: city)
         self.navigationController?.pushViewController(weatherDetailsController, animated: true)
         
     }

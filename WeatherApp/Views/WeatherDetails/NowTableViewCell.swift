@@ -6,20 +6,29 @@
 //
 
 import UIKit
+import Kingfisher
 
 class NowTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var iconImage: UIImageView!
     @IBOutlet weak var currentWeatherLabel: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
     }
 
+    func update(with currentDetails: Current) {
+        
+        let url = URL(string: "https://openweathermap.org/img/wn/\(currentDetails.weather.first?.icon ?? "")@2x.png")
+        iconImage.kf.setImage(with: url)
+        
+        currentWeatherLabel.text = String(currentDetails.temp.convertDoubleToTemperature())
+        descriptionLabel.text = currentDetails.weather.first?.weatherDescription
+    }
 }
