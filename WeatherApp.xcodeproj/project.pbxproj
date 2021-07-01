@@ -157,13 +157,13 @@
 		A261753C26491388009FE0D6 /* WeatherDetails */ = {
 			isa = PBXGroup;
 			children = (
+				A271BAD12656BD4E00ED34E5 /* WeatherDetailsRepository.swift */,
 				A261753D264913B2009FE0D6 /* WeatherDetails.storyboard */,
 				A26175412649200C009FE0D6 /* NowTableViewCell.swift */,
 				A261753F2649151D009FE0D6 /* WeatherDetailsTableViewController.swift */,
 				A261754526492EE3009FE0D6 /* HourlyTableViewCell.swift */,
 				A261754726492EF2009FE0D6 /* DailyTableViewCell.swift */,
 				A271BACF2656BD2400ED34E5 /* WeatherDetailsViewModel.swift */,
-				A271BAD12656BD4E00ED34E5 /* WeatherDetailsRepository.swift */,
 				A297BC1A266E21A500802F49 /* HourlyCollectionViewCell.swift */,
 			);
 			path = WeatherDetails;

@@ -14,14 +14,18 @@ public class CitiesViewModel {
     let cities = PublishSubject<[HomeElement]>()
     let citiesRepository = CitiesRepository()
     private var listOfCities: [HomeElement] = []
+    private var isCurrentLocationDisplayed = false
     
     func getWeatherForCurrentLocation() {
         citiesRepository.getWeatherForCurrentLocation { [weak self] result, location in
+            guard let self = self else { return }
             switch result {
             case .success(let weather):
                 
-                let weatherResponse = HomeElement(latitude: location.latitude, longitude: location.longitude, name: weather.name, icon: weather.weather.first?.icon ?? "", rawTemperature: weather.main.temp)
-                self?.cities.onNext([weatherResponse] + (self?.listOfCities ?? []))
+                let locationResponse = HomeElement(latitude: location.latitude, longitude: location.longitude, name: weather.name, icon: weather.weather.first?.icon ?? "", rawTemperature: weather.main.temp)
+                self.listOfCities = [locationResponse] + self.listOfCities
+                self.isCurrentLocationDisplayed = true
+                self.cities.onNext(self.listOfCities )
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -39,7 +43,14 @@ public class CitiesViewModel {
                 
                 self.listOfCities.append(weatherResponse)
                 self.cities.onNext(self.listOfCities)
-                self.citiesRepository.setFavouriteCities(elements: self.listOfCities)
+                if self.isCurrentLocationDisplayed {
+                    var copyOfList = self.listOfCities
+                    copyOfList.removeFirst()
+                    self.citiesRepository.setFavouriteCities(elements: copyOfList)
+                } else {
+                    self.citiesRepository.setFavouriteCities(elements: self.listOfCities)
+                }
+                
             case .failure(let error):
                 print(error)
             }
@@ -48,14 +59,24 @@ public class CitiesViewModel {
     }
     
     func deleteRows(at indexPath: Int) {
+        if indexPath == 0 && isCurrentLocationDisplayed {
+            return
+        }
         listOfCities.remove(at: indexPath)
         self.cities.onNext(self.listOfCities)
+        if self.isCurrentLocationDisplayed {
+            var copyOfList = self.listOfCities
+            copyOfList.removeFirst()
+            self.citiesRepository.setFavouriteCities(elements: copyOfList)
+        } else {
+            self.citiesRepository.setFavouriteCities(elements: self.listOfCities)
+        }
 
     }
     
     func getFavouriteCities() {
         citiesRepository.getFavouriteCities { elements in
-            self.listOfCities = elements
+            self.listOfCities = self.listOfCities + elements
             self.cities.onNext(self.listOfCities)
         }
     }

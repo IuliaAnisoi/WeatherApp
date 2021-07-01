@@ -7,7 +7,6 @@
 
 import Foundation
 import UIKit
-import CoreLocation
 
 struct HomeElement: Codable {
     var latitude: Double

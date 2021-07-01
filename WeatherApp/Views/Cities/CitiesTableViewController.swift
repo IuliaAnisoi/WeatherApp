@@ -31,7 +31,6 @@ class CitiesTableViewController: UITableViewController {
         viewModel.getWeatherForCurrentLocation()
         
         viewModel.getFavouriteCities()
-        
     }
 
     @IBAction func addNewCityAction(_ sender: Any) {
